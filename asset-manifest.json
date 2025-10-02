@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/itness-crm/static/css/main.93ffdf65.css",
-    "main.js": "/itness-crm/static/js/main.8cc983f1.js",
+    "main.js": "/itness-crm/static/js/main.2427a06f.js",
     "index.html": "/itness-crm/index.html",
     "main.93ffdf65.css.map": "/itness-crm/static/css/main.93ffdf65.css.map",
-    "main.8cc983f1.js.map": "/itness-crm/static/js/main.8cc983f1.js.map"
+    "main.2427a06f.js.map": "/itness-crm/static/js/main.2427a06f.js.map"
   },
   "entrypoints": [
     "static/css/main.93ffdf65.css",
-    "static/js/main.8cc983f1.js"
+    "static/js/main.2427a06f.js"
   ]
 }
