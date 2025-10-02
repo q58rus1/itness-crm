@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/itness-crm/static/css/main.e6c13ad2.css",
+    "main.js": "/itness-crm/static/js/main.8584280b.js",
+    "index.html": "/itness-crm/index.html",
+    "main.e6c13ad2.css.map": "/itness-crm/static/css/main.e6c13ad2.css.map",
+    "main.8584280b.js.map": "/itness-crm/static/js/main.8584280b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8584280b.js"
+  ]
+}
