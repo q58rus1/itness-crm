@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -36,7 +36,7 @@ function App() {
         {theme === 'light' ? '🌞 Светлая' : '🌙 Тёмная'}
       </button>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <BrowserRouter basename="/itness-crm">
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -47,7 +47,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </Layout>
-        </Router>
+        </BrowserRouter>
       </QueryClientProvider>
     </>
   );

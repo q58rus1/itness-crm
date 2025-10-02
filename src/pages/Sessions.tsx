@@ -55,9 +55,9 @@ const Sessions: React.FC = () => {
         return;
       }
       // Списываем занятие
-  (activePackage as any).usedSessions += 1;
-  setPackages([...packages]);
-  session.packageId = (activePackage as any).id;
+      (activePackage as any).usedSessions += 1;
+      setPackages([...packages]);
+      session.packageId = (activePackage as any).id;
     }
     setValue([...sessions, session]);
   };
@@ -104,86 +104,90 @@ const Sessions: React.FC = () => {
 
   // Получаем клиентов для проверки периода
   const { data: clients = [] } = useLocalStorageQuery(LOCAL_STORAGE_KEYS.clients, []);
-
   return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: 16 }}>
-      <h1 style={{ textAlign: 'center' }}>Тренировки</h1>
-      <SessionForm onSubmit={handleAddSession} />
-      <div
-        style={{
-          marginBottom: 16,
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <input
-          value={filter}
-          onChange={e => setFilter(e.target.value)}
-          placeholder="Быстрый фильтр по типу или дате"
-          style={{ flex: '1 1 120px', minWidth: 120 }}
-        />
-        <select value={clientFilter} onChange={e => setClientFilter(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120 }}>
-          <option value="">Все клиенты</option>
-          {clients.map((c: any) => (
-            <option key={c.id} value={c.id}>{c.name}</option>
-          ))}
-        </select>
-        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120 }}>
-          <option value="">Все типы</option>
-          <option value="training">Тренировка</option>
-          <option value="break">Перерыв</option>
-          <option value="personal">Персональное</option>
-          <option value="duty">Дежурство</option>
-        </select>
-        <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120 }} />
-        <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120 }} />
-        <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120 }}>
-          <option value="date">Сортировать по дате</option>
-          <option value="duration">Сортировать по длительности</option>
-        </select>
-        <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')} style={{ flex: '0 0 auto', minWidth: 40 }}>
-          {sortOrder === 'asc' ? '↑' : '↓'}
-        </button>
-      </div>
-      <ExportButtons data={sessions} />
-      <div>
+    <main className="container" style={{ maxWidth: 600, margin: '0 auto', padding: 16 }}>
+      <h1 style={{ fontSize: '2rem', marginBottom: 24, textAlign: 'center' }}>Тренировки</h1>
+      <section style={{ marginBottom: 24 }}>
+        <SessionForm onSubmit={handleAddSession} />
+      </section>
+      <section style={{ marginBottom: 24 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
+          <input
+            value={filter}
+            onChange={e => setFilter(e.target.value)}
+            placeholder="Быстрый фильтр по типу или дате"
+            style={{ flex: '1 1 120px', minWidth: 120, padding: 10, fontSize: '1rem', borderRadius: 8, border: '1px solid #ccc' }}
+          />
+          <select value={clientFilter} onChange={e => setClientFilter(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120, padding: 10, borderRadius: 8, border: '1px solid #ccc' }}>
+            <option value="">Все клиенты</option>
+            {clients.map((c: any) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120, padding: 10, borderRadius: 8, border: '1px solid #ccc' }}>
+            <option value="">Все типы</option>
+            <option value="training">Тренировка</option>
+            <option value="break">Перерыв</option>
+            <option value="personal">Персональное</option>
+            <option value="duty">Дежурство</option>
+          </select>
+          <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120, padding: 10, borderRadius: 8, border: '1px solid #ccc' }} />
+          <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120, padding: 10, borderRadius: 8, border: '1px solid #ccc' }} />
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ flex: '1 1 120px', minWidth: 120, padding: 10, borderRadius: 8, border: '1px solid #ccc' }}>
+            <option value="date">Сортировать по дате</option>
+            <option value="duration">Сортировать по длительности</option>
+          </select>
+          <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')} style={{ flex: '0 0 auto', minWidth: 40, padding: 10, borderRadius: 8, border: '1px solid #ccc' }}>
+            {sortOrder === 'asc' ? '↑' : '↓'}
+          </button>
+        </div>
+        <ExportButtons data={sessions} />
+      </section>
+      <section style={{ marginBottom: 32 }}>
+        <h2 style={{ fontSize: '1.2rem', marginBottom: 12 }}>Список тренировок</h2>
         {filteredSessions.length === 0 ? (
-          <div>Нет тренировок</div>
+          <div style={{ color: '#888', textAlign: 'center' }}>Нет тренировок</div>
         ) : (
-          filteredSessions.map((session: any) => {
-            // Подсветка периода
-            const client = clients.find((c: any) => c.id === session.clientId);
-            let isPeriod = false;
-            if ((client as any)?.menstrualCycle) {
-              const { cycleLength, lastPeriodDate, periodLength } = (client as any).menstrualCycle;
-              const sessionDate = new Date(session.date);
-              const lastPeriod = new Date(lastPeriodDate);
-              const diffDays = Math.floor((sessionDate.getTime() - lastPeriod.getTime()) / (1000 * 60 * 60 * 24));
-              const cycleDay = diffDays % cycleLength;
-              isPeriod = cycleDay >= 0 && cycleDay < periodLength;
-            }
-            return (
-              <div key={session.id}>
-                <SessionCard
-                  clientName={session.clientName}
-                  time={session.time}
-                  duration={session.duration}
-                  type={session.type}
-                  isPeriod={isPeriod}
-                />
-                <button onClick={() => handleEditSession(session)}>Редактировать</button>
-                <button onClick={() => handleDeleteSession(session)}>Удалить</button>
-              </div>
-            );
-          })
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {filteredSessions.map((session: any) => {
+              // Подсветка периода
+              const client = clients.find((c: any) => c.id === session.clientId);
+              let isPeriod = false;
+              if ((client as any)?.menstrualCycle) {
+                const { cycleLength, lastPeriodDate, periodLength } = (client as any).menstrualCycle;
+                const sessionDate = new Date(session.date);
+                const lastPeriod = new Date(lastPeriodDate);
+                const diffDays = Math.floor((sessionDate.getTime() - lastPeriod.getTime()) / (1000 * 60 * 60 * 24));
+                const cycleDay = diffDays % cycleLength;
+                isPeriod = cycleDay >= 0 && cycleDay < periodLength;
+              }
+              return (
+                <li key={session.id} style={{ background: isPeriod ? '#fee2e2' : '#f3f4f6', borderRadius: 8, marginBottom: 8, padding: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1 }}>
+                    <SessionCard
+                      clientName={session.clientName}
+                      time={session.time}
+                      duration={session.duration}
+                      type={session.type}
+                      isPeriod={isPeriod}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => handleEditSession(session)}>Редактировать</button>
+                    <button onClick={() => handleDeleteSession(session)}>Удалить</button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
-      </div>
+      </section>
       {editSession && (
-        <div className="modal">
-          <SessionEditForm session={editSession} onSave={handleSaveSession} onCancel={handleCancelEdit} />
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#0008', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#fff', borderRadius: 12, padding: 24, minWidth: 350 }}>
+            <h3>Редактировать тренировку</h3>
+            <SessionEditForm session={editSession} onSave={handleSaveSession} onCancel={handleCancelEdit} />
+          </div>
         </div>
       )}
       <ConfirmModal
@@ -192,7 +196,7 @@ const Sessions: React.FC = () => {
         onConfirm={confirmDelete}
         onCancel={() => setModalOpen(false)}
       />
-    </div>
+    </main>
   );
 };
 
